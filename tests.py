@@ -119,3 +119,65 @@ def multiply3(l, num_elems):
     return prod
 
 
+def condense_meeting_times(times, return_in_minutes=False):
+    """ Your company built an in-house calendar tool called HiCal.
+    You want to add a feature to see the times in a day when everyone is available.
+    To do this, you’ll need to know when any team is having a meeting. In HiCal, a meeting is stored as tuples ↴
+    of integers (start_time, end_time). These integers represent the number of 30-minute blocks past 9:00am.
+    :param times:
+    :param return_in_minutes:
+    :return:
+    """
+    # Reserve space for 15 hours (2 half-hours per hour)
+    l = 30
+    result = [False]*l
+
+    for t in times:
+        # Get all the intervals and add them to the list of scheduled times
+        start = t[0]
+        end = t[1]
+        while start < end:
+            result[start] = True
+            start += 1
+    # Condense the hours
+    condensed_result = []
+    start = -1
+    for h in range(l):
+        if result[h]:
+            # Found first element
+            start = h
+            break
+    if start == -1:
+        # Not hours found
+        return []
+
+    # start and h contain the first index, we have to find the last
+    h = start + 1
+    meeting_going_on = True
+    while h < l:
+        if result[h]:
+            # Meeting still on. Nothing
+            meeting_going_on = True
+            if start == -1:
+                start = h
+        elif meeting_going_on:
+            # Stop
+            condensed_result.append((start, h))
+            meeting_going_on = False
+            start = -1
+        h += 1
+    # print condensed_result
+    condensed_result_modified = []
+    if return_in_minutes:
+        offset = 9*60
+        for t in condensed_result:
+            condensed_result_modified.append((t[0]+offset, t[1]*30+offset))
+        return condensed_result_modified
+    else:
+        return condensed_result
+
+
+
+
+times =   [(1, 10), (2, 6), (3, 5), (7, 9), (11,12)]
+print condense_meeting_times(times)
