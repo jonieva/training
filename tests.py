@@ -122,11 +122,6 @@ def multiply3(l, num_elems):
 def condense_meeting_times(times, return_in_minutes=False):
     """ Your company built an in-house calendar tool called HiCal.
     You want to add a feature to see the times in a day when everyone is available.
-    To do this, you’ll need to know when any team is having a meeting. In HiCal, a meeting is stored as tuples ↴
-    of integers (start_time, end_time). These integers represent the number of 30-minute blocks past 9:00am.
-    :param times:
-    :param return_in_minutes:
-    :return:
     """
     # Reserve space for 15 hours (2 half-hours per hour)
     l = 30
@@ -175,9 +170,71 @@ def condense_meeting_times(times, return_in_minutes=False):
         return condensed_result_modified
     else:
         return condensed_result
+#times =   [(1, 10), (2, 6), (3, 5), (7, 9), (11,12)]
 
 
+def denominations(amount, denoms):
+    """ Write a function that, given:
+        an amount of money
+        a list of coin denominations
+        computes the number of ways to make amount of money with coins of the available denominations.
+    :param amount:
+    :param denoms:
+    :return:
+    """
+    results = []
+    __denominations_rec__(amount, denoms, [], results)
+    return results
+
+def __denominations_rec__(amount, denoms, partial_sol, solutions):
+    acc = sum(partial_sol)
+    print("partial_sol: {0}, solutions: {1}".format(partial_sol, solutions))
+    if acc == amount:
+        solutions.append(list(partial_sol))
+    elif acc < amount:
+        for d in denoms:
+            p = list(partial_sol)
+            p.append(d)
+            __denominations_rec__(amount, denoms, p, solutions)
+    return acc
+
+def denominations2(amount, my_denoms):
+    final_sols = list()
+    for i in range(amount + 1):
+        final_sols.append(list())
+
+    candidates_to_review = list()
+    for denom in my_denoms:
+        # Add this denom to all the possible solutions that lead to this number
+        if denom < amount:
+            final_sols[denom].append([denom])
+            candidates_to_review.append(denom)
+
+    print ("Initial candidates:", candidates_to_review)
+    print ("Initial sols:", final_sols)
+    while len(candidates_to_review) > 0:
+        # Extract first element to avoid duplicated results
+        candidates_to_review.sort()
+        index = candidates_to_review.pop(0)
+        print ("Index reviewed: ", index)
+        previous_solutions = final_sols[index]
+        for denom in my_denoms:
+            s = index + denom
+            if s <= amount:
+                # Add this denom to all the posibilities that we had to arrive to this candidate
+                for prev_sol in previous_solutions:
+                    # Copy list
+                    prev_sol = list(prev_sol)
+                    # Add the new denom
+                    prev_sol.extend([denom])
+                    final_sols[s].append(prev_sol)
+                    if s < amount and s not in candidates_to_review:
+                        candidates_to_review.append(s)
+                print ("Candidates:", candidates_to_review)
+                print ("Sols:", final_sols)
+
+    print ("Final: ", final_sols)
+    return final_sols[10]
 
 
-times =   [(1, 10), (2, 6), (3, 5), (7, 9), (11,12)]
-print condense_meeting_times(times)
+# print ("result: ", denominations2(10, [2,4]))
