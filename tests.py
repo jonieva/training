@@ -307,3 +307,23 @@ b2 = {
 }
 
 print (bounding_boxes(b1, b11))
+
+class TempTracker(object):
+    max_ = min_ = mode_ = __most_frequent__ = _sum = _mean = None
+    mode_dict = dict()
+    __lenght__ = 0
+
+    def insert_measure(self, temp):
+        temp = int(round(temp, 0))
+        if temp > self.max_: self.max_ = temp
+        elif temp < self.min_: self.min_ = temp
+        self.__lenght__ += 1
+        self.sum_ += temp
+        self.mean_ = (float)self.sum_ / self.__lenght__
+        self.mode_dict[temp] = 1 if not self.mode_dict.has_key(temp) else self.mode_dict[temp] + 1
+        if self.mode_dict[temp] > self.__most_frequent__:
+            self.mode_ = temp
+            self.__most_frequent__ = self.mode_dict[temp]
+
+    def get_mean(self):
+        return self.mean_
