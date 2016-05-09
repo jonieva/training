@@ -35,8 +35,7 @@ colors=["#000000", "#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46", "#008941", "#006F
         "#061203", "#DFFB71", "#868E7E", "#98D058", "#6C8F7D", "#D7BFC2", "#3C3E6E", "#D83D66",
 
         "#2F5D9B", "#6C5E46", "#D25B88", "#5B656C", "#00B57F", "#545C46", "#866097", "#365D25",
-        "#252F99", "#00CCFF", "#674E60", "#FC009C", "#92896B"] 
-
+        "#252F99", "#00CCFF", "#674E60", "#FC009C", "#92896B"]
 # colors = ["#B88183",
 # "#922329",
 # "#5A0007",
@@ -294,10 +293,180 @@ colors=["#000000", "#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46", "#008941", "#006F
 # "#452C2C",
 # "#C8A1A1"]
 
+from operator import itemgetter
+
+chest_region = \
+[('ABDOMEN', 27),
+ ('AORTA', 17),
+ ('ASCENDINGAORTA', 45),
+ ('DESCENDINGAORTA', 47),
+ ('ESOPHAGUS', 61),
+ ('HIATUS', 66),
+ ('HILA', 39),
+ ('HUMERI', 33),
+ ('KIDNEYS', 42),
+ ('LEFT', 23),
+ ('LEFTATRIUM', 54),
+ ('LEFTCHESTWALL', 62),
+ ('LEFTCORONARYARTERY', 50),
+ ('LEFTDIAPHRAGM', 64),
+ ('LEFTHILUM', 40),
+ ('LEFTHUMERUS', 34),
+ ('LEFTINFERIORLOBE', 8),
+ ('LEFTKIDNEY', 43),
+ ('LEFTLOWERTHIRD', 11),
+ ('LEFTLUNG', 3),
+ ('LEFTMAINBRONCHUS', 59),
+ ('LEFTMIDDLETHIRD', 10),
+ ('LEFTPECTORALIS', 56),
+ ('LEFTSCAPULA', 37),
+ ('LEFTSUBCLAVIAN', 48),
+ ('LEFTSUPERIORLOBE', 7),
+ ('LEFTUPPERTHIRD', 9),
+ ('LEFTVENTRICLE', 52),
+ ('LIVER', 25),
+ ('LOWERTHIRD', 22),
+ ('MEDIASTINUM', 15),
+ ('MIDDLETHIRD', 21),
+ ('OUTSIDEBODY', 30),
+ ('OUTSIDELUNG', 29),
+ ('PARAVERTEBRAL', 28),
+ ('PECTORALIS', 67),
+ ('PULMONARYARTERY', 18),
+ ('PULMONARYVEIN', 19),
+ ('RIGHT', 24),
+ ('RIGHTATRIUM', 55),
+ ('RIGHTCHESTWALL', 63),
+ ('RIGHTDIAPHRAGM', 65),
+ ('RIGHTHILUM', 41),
+ ('RIGHTHUMERUS', 35),
+ ('RIGHTINFERIORLOBE', 6),
+ ('RIGHTKIDNEY', 44),
+ ('RIGHTLOWERTHIRD', 14),
+ ('RIGHTLUNG', 2),
+ ('RIGHTMAINBRONCHUS', 60),
+ ('RIGHTMIDDLELOBE', 5),
+ ('RIGHTMIDDLETHIRD', 13),
+ ('RIGHTPECTORALIS', 57),
+ ('RIGHTSCAPULA', 38),
+ ('RIGHTSUBCLAVIAN', 49),
+ ('RIGHTSUPERIORLOBE', 4),
+ ('RIGHTUPPERTHIRD', 12),
+ ('RIGHTVENTRICLE', 53),
+ ('SCAPULAE', 36),
+ ('SKELETON', 31),
+ ('SPINALCORD', 68),
+ ('SPINE', 51),
+ ('SPLEEN', 26),
+ ('STERNUM', 32),
+ ('TRACHEA2', 58),
+ ('TRANSVERSALAORTA', 46),
+ ('UNDEFINEDREGION', 0),
+ ('UPPERTHIRD', 20),
+ ('WHOLEHEART', 16),
+ ('WHOLELUNG', 1)]
+
+chest_region.sort(key=itemgetter(1))
+
+chest_type = [
+    ('AIRWAY', 2),
+ ('AIRWAYCYLINDRICALDILATION', 23),
+ ('AIRWAYGENERATION10', 48),
+ ('AIRWAYGENERATION3', 41),
+ ('AIRWAYGENERATION4', 42),
+ ('AIRWAYGENERATION5', 43),
+ ('AIRWAYGENERATION6', 44),
+ ('AIRWAYGENERATION7', 45),
+ ('AIRWAYGENERATION8', 46),
+ ('AIRWAYGENERATION9', 47),
+ ('AIRWAYWALLTHICKENING', 22),
+ ('AMBIGUOUSBRONCHIECTATICAIRWAY', 79),
+ ('ANTERIORSCALENE', 54),
+ ('ARTERY', 50),
+ ('ATELECTASIS', 36),
+ ('BENIGNNODULE', 87),
+ ('BONE', 83),
+ ('BONEMARROW', 82),
+ ('BRONCHIECTATICAIRWAY', 77),
+ ('CALCIFICATION', 49),
+ ('CENTRILOBULAREMPHYSEMA', 68),
+ ('CENTRILOBULARNODULE', 26),
+ ('CYST', 35),
+ ('CYSTICBRONCHIECTASIS', 25),
+ ('DIFFUSEGASTRAPPING', 33),
+ ('EMPHYSEMATOUS', 4),
+ ('EXPIRATORYMALACIA', 28),
+ ('FISSURE', 55),
+ ('GROUNDGLASS', 5),
+ ('HERNIA', 81),
+ ('HONEYCOMBING', 37),
+ ('HORIZONTALFISSURE', 9),
+ ('INTERMEDIATEBRONCHUS', 72),
+ ('INTERSTITIALLUNGDISEASE', 84),
+ ('LINEARSCAR', 34),
+ ('LINGULARBRONCHUS', 75),
+ ('LOWERLOBEBRONCHUS', 73),
+ ('MAINBRONCHUS', 39),
+ ('MALIGNANTNODULE', 88),
+ ('MIDDLELOBEBRONCHUS', 76),
+ ('MILDBULLA', 13),
+ ('MILDCENTRILOBULAREMPHYSEMA', 16),
+ ('MILDPANLOBULAREMPHYSEMA', 19),
+ ('MILDPARASEPTALEMPHYSEMA', 10),
+ ('MODERATEBULLA', 14),
+ ('MODERATECENTRILOBULAREMPHYSEMA', 17),
+ ('MODERATEPANLOBULAREMPHYSEMA', 20),
+ ('MODERATEPARASEPTALEMPHYSEMA', 11),
+ ('MOSAICING', 27),
+ ('MUCOIDMATERIAL', 31),
+ ('MUSCLE', 80),
+ ('NODULAR', 7),
+ ('NODULE', 86),
+ ('NONBRONCHIECTATICAIRWAY', 78),
+ ('NORMALPARENCHYMA', 1),
+ ('OBLIQUEFISSURE', 8),
+ ('OUTPOUCHING', 30),
+ ('PANLOBULAREMPHYSEMA', 69),
+ ('PARASEPTALEMPHYSEMA', 67),
+ ('PATCHYGASTRAPPING', 32),
+ ('PECTORALISMAJOR', 53),
+ ('PECTORALISMINOR', 52),
+ ('RETICULAR', 6),
+ ('SABERSHEATH', 29),
+ ('SEPTUM', 89),
+ ('SEVEREBULLA', 15),
+ ('SEVERECENTRILOBULAREMPHYSEMA', 18),
+ ('SEVEREPANLOBULAREMPHYSEMA', 21),
+ ('SEVEREPARASEPTALEMPHYSEMA', 12),
+ ('SUBCUTANEOUSFAT', 70),
+ ('SUBPLEURALLINE', 85),
+ ('SUPERIORDIVISIONBRONCHUS', 74),
+ ('TRACHEA', 38),
+ ('UNDEFINEDTYPE', 0),
+ ('UPPERLOBEBRONCHUS', 40),
+ ('VARICOSEBRONCHIECTASIS', 24),
+ ('VEIN', 51),
+ ('VESSEL', 3),
+ ('VESSELGENERATION0', 56),
+ ('VESSELGENERATION1', 57),
+ ('VESSELGENERATION10', 66),
+ ('VESSELGENERATION2', 58),
+ ('VESSELGENERATION3', 59),
+ ('VESSELGENERATION4', 60),
+ ('VESSELGENERATION5', 61),
+ ('VESSELGENERATION6', 62),
+ ('VESSELGENERATION7', 63),
+ ('VESSELGENERATION8', 64),
+ ('VESSELGENERATION9', 65),
+ ('VISCERALFAT', 71)
+]
+chest_type.sort(key=itemgetter(1))
+
+
 import numpy as np
 import math
 import colorsys
-import struct
+import os
 
 num_colors = 256
 def colors1():
@@ -424,7 +593,32 @@ def generate_slicer_palette(palette, output_path):
     :return:
     """
     s = ""
+    for i in range(len(chest_region)):
+        # Convert from Hexadecimal to RGB (255)
+        col = (int(palette[i][1:3], 16), int(palette[i][3:5], 16), int(palette[i][5:], 16))
+        s += "{0} {1} {2} {3} {4} 255\n".format(i, chest_region[i][0], col[0], col[1], col[2])
+
+    for i in range(len(chest_region), len(palette)):
+        col = (int(palette[i][1:3], 16), int(palette[i][3:5], 16), int(palette[i][5:], 16))
+        s += "{0} AUX_TYPE-{1} {2} {3} {4} 255\n".format(i, i-len(chest_region)+1, col[0], col[1], col[2])
+
+    p = os.path.join(output_path, "chest_region.ctbl")
+    with open(p, "w") as f:
+        f.write(s)
+
+    s = ""
+    for i in range(len(chest_type)):
+        # Convert from Hexadecimal to RGB (255)
+        col = (int(palette[i][1:3], 16), int(palette[i][3:5], 16), int(palette[i][5:], 16))
+        s += "{0} {1} {2} {3} {4} 255\n".format(i, chest_type[i][0], col[0], col[1], col[2])
+
+    for i in range(len(chest_type), len(palette)):
+        col = (int(palette[i][1:3], 16), int(palette[i][3:5], 16), int(palette[i][5:], 16))
+        s += "{0} AUX_TYPE-{1} {2} {3} {4} 255\n".format(i, i-len(chest_type)+1, col[0], col[1], col[2])
+
+    p = os.path.join(output_path, "chest_type.ctbl")
+    with open(p, "w") as f:
+        f.write(s)
 
 
-
-colors2()
+generate_slicer_palette(colors, "/Users/jonieva/tmp/")
