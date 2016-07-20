@@ -7,9 +7,13 @@ using namespace std;
 #include "Queue.h"
 #include "MaxStack.h"
 #include "mylists.h"
+#include "BinTreeNode.h"
 #include <bitset>
 #include <map>
 #include <vector>
+#include <stack>
+#include <exception>
+
 // https://www.interviewcake.com/question/python/find-rotation-point
 u_long rotatedDictionary(string *list, u_long size){
 //    string list[3] = {/*"ptolemaic", //0
@@ -360,10 +364,347 @@ vector<vector<int>> coinChange(vector<int> coins, int totalSum){
 
 
 
+
+
+//BinTreeNode getTree(int *myArray, int length){
+//    if (length == 0)
+//        return NULL;
+//    if (length == 1)
+//        return BinTreeNode(myArray[0]);
+//    if (length == 2) {
+//        // Base case (TODO)
+//        return BinTreeNode(myArray[0]);
+//    }
+//    BinTreeNode root(myArray[0]);
+//    BinTreeNode *left = new BinTreeNode(myArray[1]);
+//    BinTreeNode *right = new BinTreeNode(myArray[2]);
+//    root.left = left;
+//    root.right = right;
+//
+//    int index=3;
+//    while (index < length){
+//        // Create left child
+//        BinTreeNode *child = new BinTreeNode(myArray[index++]);
+//        left->left = child;
+//        left = child;
+//
+//        if (index < length){
+//            // Create right child
+//            child = new BinTreeNode(myArray[index++]);
+//            left->right = child;
+//            right = child;
+//        }
+//    }
+//    return root;
+//}
+
+BinTreeNode getTree(int *myArray, int length){
+    int iroot = length / 2;
+    BinTreeNode *root = new BinTreeNode(myArray[iroot]);
+    int iPos = iroot-1;
+    int rPos = iroot+1;
+
+    BinTreeNode *current;
+    while (iPos > 1){
+        root->left = new BinTreeNode(myArray[iPos]);
+        current = root->left;
+    }
+
+    root->left =
+    root->right = new BinTreeNode(myArray[iroot+1]);
+
+}
+
+string printNode(BinTreeNode* node){
+    string s =  "[" + to_string(node->value);
+    if (node->left == NULL && node->right == NULL)
+        return s + "]";
+
+    if (node->left == NULL)
+        s += "L[]";
+    else
+        s += "L" + printNode(node -> left) + ";";
+
+    if (node->right == NULL)
+        s += "R[]";
+    else
+        s += "R" + printNode(node -> right) + ";";
+
+    s += "]";
+    return s;
+}
+
+
+
+//int rand7(){
+//    int sum=0;
+//    for (int i=0; i<7; i++){
+//        sum += std::experimental::randint(1, 5);
+//    }
+//
+//    if (sum<=5) return 1;
+//    if (sum>5 && sum<=10) return 2;
+//    if (sum>10 && sum<=15) return 3;
+//    if (sum>15 && sum<=20) return 4;
+//    if (sum>20 && sum<=25) return 5;
+//    if (sum>25 && sum<=30) return 6;
+//    return 7;
+//
+//}
+
+
+char* reverseWords(char* original, int length){
+    int startingPos = 0;
+    char c;
+    int i = 0;
+    for (; i<length; i++){
+        if (original[i] == ' '){
+            // Replace word
+            for (int j=0; j<(i-startingPos)/2; j++){
+                c = original[j+startingPos];
+                original[j+startingPos] = original[i-j-1];
+                original[i-j-1] = c;
+            }
+            startingPos=i+1;
+        }
+    }
+    // Last word
+    for (int j=0; j<(i-startingPos)/2; j++){
+        c = original[j+startingPos];
+        original[j+startingPos] = original[i-j-1];
+        original[i-j-1] = c;
+    }
+    return original;
+}
+
+float reversePolishNotation(vector<string> operators){
+    if (operators.size() == 0) return 0;
+    stack<float> ops;
+    vector<string>::iterator it = operators.begin();
+    while (it != operators.end()){
+        if (*it != "+" && *it != "-" && *it != "*" && *it != "/"){
+            // Add to stack
+            float f = stof(*it);
+            ops.push(f);
+        }
+        else{
+            // Perform operation
+            if (ops.empty()){
+                throw std::runtime_error("Bad syntax");
+            }
+            float op2 = ops.top();
+            ops.pop();
+            if (ops.empty()){
+                throw std::runtime_error("Bad syntax");
+            }
+            float op1 = ops.top();
+            ops.pop();
+            if (*it == "+")
+                ops.push(op1+op2);
+            else if (*it == "-")
+                ops.push(op1-op2);
+            else if (*it == "*")
+                ops.push(op1*op2);
+            else if (*it == "/")
+                ops.push(op1/op2);
+            else
+                throw std::runtime_error("Unknown operator");
+        }
+        it++;
+    }
+    if (ops.empty())
+        throw std::runtime_error("Bad syntax");
+    return ops.top();
+}
+
+bool isomorphic(string s1, string s2){
+    if (s1.size() != s2.size())
+        return false;
+    std::map<char,char> mymap;
+    std::map<char,char>::iterator it;
+
+    for (int i=0; i<s1.size(); i++){
+        it = mymap.find(s2[i]);
+        if (it == mymap.end()){
+            // New key
+            mymap[s2[i]] = s1[i];
+        }
+        else if (mymap.at(s2[i]) != s1[i]){
+            return false;
+        }
+    }
+    return true;
+}
+
+//int shortestTransform(string start, string end, map<string> dict){
+//    vector<tuple<int,string>> visited;
+//    int minLength = 0;
+//    visited.push_back(make_tuple(0, start));
+//    //for (int i=0; i<start.size(); i++)
+//}
+
+int median (vector<int> v1, vector<int> v2){
+    v1.insert(v1.end(), v2.begin(), v2.end());
+
+    int m = v1.size();
+    //int n = v2.size();
+    int medianPos = m / 2;
+    int pivot;
+    //if (m >medianPos-1)
+    //	pivot = v1[medianPos];
+    //else
+    //	pivot = v2[medianPos-m-1];
+    pivot = v1[medianPos];
+
+    // Partition
+
+    int temp;
+    for (int index=0;index<=medianPos;index++)
+    {
+        if (v1[index] > pivot){
+            // Swap
+            temp = v1[index];
+            v1[index]  = v1[m-index-1];
+            v1[m-index-1] = temp;
+        }
+    }
+    return v1[medianPos];
+}
+
+
+int getRepeatedNumber(int values[], int size) {
+    // Go to the "head" of the list, that will be the last element of the array
+    int currentPos = size;
+    // Move "size" steps to make sure we are in the loop
+    for (int i = 0; i <= size; i++)
+        currentPos = values[currentPos - 1];
+    // Fix the current position and move until we get to the same point
+    int next = values[currentPos - 1];
+    int loopSize = 1;
+    while (next != currentPos) {
+        loopSize++;
+        next = values[next - 1];
+    }
+    // Once that I know the size of the loop, I can start navigating the list using the "sticker" method
+    currentPos = size;
+    int sticker = currentPos;
+    // Move the sticker "loopSize" positions
+    for (int i = 0; i < loopSize; i++)
+        sticker = values[sticker - 1];
+    // Loop over the list until the two markers match
+    while (sticker != currentPos) {
+        currentPos = values[currentPos - 1];
+        for (int i = 0; i < loopSize; i++)
+            sticker = values[sticker - 1];
+    }
+    cout << "Result: " << values[currentPos-1];
+    return values[currentPos-1];
+}
+
+void replace(char* s){
+    int spaces = 0;
+    int i=0;
+    while (s[i] != '\0') {
+        if (s[i] == ' ')
+            spaces++;
+        i++;
+    }
+    int newLength = spaces*2 + i;
+    int addedPositions = 0;
+    char s2[newLength];
+    for (int j=0; j<i; j++) {
+        if (s[j] == ' ') {
+            s2[j+addedPositions++] = '%';
+            s2[j+addedPositions++] = '2';
+            s2[j+addedPositions] = '0';
+        }
+        else {
+            s2[j+addedPositions] = s[j];
+        }
+    }
+    cout << s2;
+}
+
+string removeDuplicates(string str){
+    // TODO: full alphabet
+    string alphabet = "abcdefg";
+    char c;
+    bool found;
+    int originalLength = str.length();
+    int currentIndex = 0;
+    int forwardIndex = 0;
+    int totalRemoved=0;
+
+    for (int i=0;i<=alphabet.length();i++){
+        c = alphabet[i];
+        found = false;
+        currentIndex=0;
+        forwardIndex=0;
+        while(currentIndex<originalLength-totalRemoved) {
+            if (str[forwardIndex] == c) {
+                if (!found) {
+                    // The first time it's ok
+                    found = true;
+                    currentIndex++;
+                }
+                else {
+                    // Just increase the number of characters that must be removed
+                    totalRemoved++;
+                }
+            }
+            else{
+                if (forwardIndex != currentIndex)
+                    str[currentIndex] = str[forwardIndex];
+                currentIndex++;
+            }
+            forwardIndex++;
+        }
+    }
+    return str.substr(0, originalLength-totalRemoved);
+}
+
+
+void rotateMatrix(int matrix[], int dimension) {
+    int row,col, tmp;
+    int nextValue;
+
+    for (int i = 0; i <= dimension / 2; i++) {
+        for (int j = 0; j <= dimension / 2; j++) {
+            row = i;
+            col = j;
+            nextValue = matrix[col * dimension + dimension - row - 1];
+            matrix[col * dimension + dimension - row - 1] = matrix[row * dimension + col];
+            tmp = row;
+            row = col;
+            col = dimension - tmp - 1;
+
+            for (int h = 0; h < 3; h++) {
+                tmp = matrix[row * dimension + col];
+                matrix[col * dimension + dimension - row - 1] = nextValue;
+                nextValue = tmp;
+                tmp = row;
+                row = col;
+                col = dimension - tmp - 1;
+            }
+        }
+    }
+}
+
+
 int main() {
-    vector<int> coins = {10, 5, 1};
-    vector<vector<int>> result = coinChange(coins, 16);
-//    for (std::vector<int>::const_iterator i = result.begin(); i != path.end(); ++i)
-//        std::cout << *i << ' ';
+    int dimension = 3;
+    int matrix[dimension*dimension];
+    for (int i=0; i<dimension;i++)
+        for (int j=0; j<dimension; j++)
+            matrix[i*dimension+j] = i*dimension + j + 1;
+
+    rotateMatrix(matrix, dimension);
+    for (int i=0; i<dimension;i++){
+        cout << "\n";
+        for (int j=0; j<dimension; j++)
+                // 4 iterations (squared matrix)
+            cout << matrix[i*dimension + j] << " ";
+    }
+
     return 0;
 }

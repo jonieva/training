@@ -122,3 +122,39 @@ n140 = n120.insert_right(140)
 
 
 print n100.second_biggest()
+
+
+
+class binary_node:
+	def __init__(self, value):
+		self.value = value
+		self.leftChild = None
+		self.rightChild = None
+
+class binary_tree:
+	def __init__(self):
+		self.root = None
+
+	def __insert__(self, item):
+		current_node = self.root
+		while current_node.next:
+			if (item > current_node.value):
+				current.node = current.node.self.rightChild
+			else:
+				current.node = current.node.self.leftChild
+
+
+#
+#
+# def build_tree(sorted_array, node, low, high):
+# 	if (low == high):
+# 		return parent_node
+# 	else:
+# 		# find the middle element
+# 		El = sorted_array[int((high+low)/2)]
+# 		# insert the middle element at the root
+# 		node.value = 	sorted_array[El]
+# 		node.leftChild= binary_node()
+# 		node.rightChild= binary_node()
+# 		build_tree(sorted_array, Node.leftChild, 0, El)
+# 		build_tree(sorted_array, Node.rightChild, El, high)

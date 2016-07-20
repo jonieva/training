@@ -248,3 +248,23 @@ def permutations(s):
     return l
 
 permutations("caro")
+
+
+def build_recursive_(self, sorted_array, low, high):
+    """ build a tree usign a subset of an array starting with the parent node"""
+    """ return the root node"""
+    middle_element = int((high + low) / 2)
+
+    # print(str(low)+str(high)+str(middle_element))
+
+    if (high >= low):
+        self.insert(sorted_array[middle_element])
+
+    if (high <= low):
+        return
+    else:
+        # insert the middle element at the root
+        self.build_recursive_(sorted_array, low, middle_element - 1)
+        self.build_recursive_(sorted_array, middle_element + 1, high)
+
+
