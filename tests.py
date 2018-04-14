@@ -268,3 +268,53 @@ def build_recursive_(self, sorted_array, low, high):
         self.build_recursive_(sorted_array, middle_element + 1, high)
 
 
+def find_rotated_index(a, value):
+    if len(a) == 0:
+        return -1
+
+    if len(a) == 1:
+        if a[0] == value:
+            return 0
+        return -1
+    i = 0
+    j = len(a) - 1
+    pending_segments = [(i,j)]
+    while len(pending_segments) > 0:
+        tup = pending_segments.pop()
+        i = tup[0]
+        j = tup[1]
+        m = (j-i) / 2 + i
+        while i < j - 1:
+            v = a[m]
+            if v == value:
+                return m
+            if a[i] == value:
+                return i
+            if a[j] == value:
+                return j
+
+            if v < value:
+                # We should go to the right, unless the array is rotated
+                if a[i] > a[m]:
+                    # The array was rotated, so we may have to analyze this segment later
+                    pending_segments.append((i, m))
+                # Go to the right if the value that we are looking is bigger and the array seems correctly sorted
+                right = a[m] < a[j]
+            else:
+                # Idem, we should go to the left unless the array is rotated
+                if a[j] < a[m]:
+                    # The array was rotated, so we may have to analyze this segment later
+                    pending_segments.append((m, j))
+                right = a[i] > a[m]
+
+            if right:
+                i = m
+            else:
+                j = m
+            m = (j - i) / 2 + i
+        # If the value was not found here, we look for rotated segments
+    # Not found
+    return -1
+
+a = [15, 16, 17, 1, 3, 4, 5, 13, 14]
+print find_rotated_index(a, 16)

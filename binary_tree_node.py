@@ -45,7 +45,7 @@ class BinaryTreeNode:
                         print ("found leaf with depth {0}!={1}".format(depth, last_depth))
                         return False
                 else:
-                    # Add the next nodes to be visited later (append them to the beginning of the list)
+                    # Add the nxt nodes to be visited later (append them to the beginning of the list)
                     nodes.append((current.right, depth + 1))
                     nodes.append((current.left, depth + 1))
             else:
@@ -110,18 +110,71 @@ class BinaryTreeNode:
             return ref_node.value
         return second
 
+    def is_binary_search_tree_well_built(self):
+        # if root is None:
+        #     return False
+        pending = []
+        if self.left: pending.append((self.left, None, self.value))
+        if self.right: pending.append((self.right, self.value, None))
+        while len(pending) > 0:
+            tuple = pending.pop()
+            node = tuple[0]
+            _min = tuple[1]
+            _max = tuple[2]
+            if _min is not None and node.value < _min:
+                print "Error: {} < {}".format(node.value, _min)
+                return False  # Wrong node
+            if _max is not None and node.value > _max:
+                print "Error: {} > {}".format(node.value, _max)
+                return False  # Wrong node
+            if node.left:
+                pending.append((node.left, _min, node.value))
+            if node.right:
+                pending.append((node.right, node.value, _max))
+        return True
+
+    def is_balanced(self):
+        root = self
+        if root is None: return True
+        max_height = None
+        pending = []
+        if root.left:
+            pending.append((root.left, 1))
+        if root.right:
+            pending.append((root.right, 1))
+        while len(pending) > 0:
+            t = pending.pop()
+            node = t[0]
+            h = t[1]
+            if node.is_leaf():
+                if max_height is None:
+                    # First leaf node
+                    max_height = h
+                else:
+                    # Check abs value
+                    if abs(max_height - h) > 1:
+                        return False
+                    max_height = max(h, max_height)
+            else:
+                if node.left:
+                    pending.append((node.left, h + 1))
+                if node.right:
+                    pending.append((node.right, h + 1))
+        return True
+
 n100 = BinaryTreeNode(100)
 n90 = n100.insert_left(90)
 n110 = n100.insert_right(110)
 n8 = n90.insert_left(8)
 n95 = n90.insert_right(95)
-n115 = n110.insert_left(109)
+n115 = n110.insert_left(105)
 n120 = n110.insert_right(120)
 n7 = n120.insert_left(112)
 n140 = n120.insert_right(140)
+n160 = n140.insert_right(160)
+print n100.is_balanced()
 
-
-print n100.second_biggest()
+# print n100.second_biggest()
 
 
 
@@ -158,3 +211,5 @@ class binary_tree:
 # 		node.rightChild= binary_node()
 # 		build_tree(sorted_array, Node.leftChild, 0, El)
 # 		build_tree(sorted_array, Node.rightChild, El, high)
+
+

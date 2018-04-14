@@ -93,12 +93,12 @@
 #         for level_index in range(0, num_levels):
 #             next_indices = []
 #             for array_index in range(0, (np.shape(current_indices)[0] - 1)):
-#                 # keep it for next time
+#                 # keep it for nxt time
 #                 current_array_index = current_indices[array_index]
 #
 #                 next_indices.append(current_array_index)
 #                 next_index_array = int((current_array_index + current_indices[array_index + 1]) / 2)
-#                 # if it is a valid array index, then insert and append index for next time
+#                 # if it is a valid array index, then insert and append index for nxt time
 #                 if ((next_index_array < num_elements) and (
 #                             (current_array_index + 1) < current_indices[array_index + 1])):
 #                     self.insert(input_array[next_index_array])
