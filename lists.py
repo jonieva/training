@@ -1,4 +1,4 @@
-# dummy change 4
+# dummy change 5
 class Node(object):
     def __init__(self, val, nxt=None):
         self.value = val
