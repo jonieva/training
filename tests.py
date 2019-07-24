@@ -1,3 +1,4 @@
+# Reopen pull request - 1
 stock_prices_yesterday = [10, 7, 5, 8, 11, 9]
 stock_prices_yesterday = [10, 8, 7, 6, 5, 4]
 
